@@ -1,0 +1,8 @@
+dice as number txt, dots all css!!
+
+new round btn , lobby btn
+
+win - lose - draw msg
+
+//
+both side dice and pf style. Side dice is excellent for mobile.

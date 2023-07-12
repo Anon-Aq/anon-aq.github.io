@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>connect-four</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- <link rel="stylesheet" href="./css/lobby.css"> -->
+    <script>
+      var exports = {};
+    </script>
+    <script src="js/die.js" type="module"></script>
+    <script src="js/yatzyTable.js" type="module"></script>
+    <script src="js/player.js" type="module"></script>
+    <script src="js/roll.js" type="module"></script>
+    <script src="js/random.js" type="module"></script>
+    <script src="js/yatzysheet.js" type="module"></script>
+    <script src="js/results.js" type="module"></script>
+    <script src="js/manager.js" type="module"></script>
+    <script src="/js/themes.js" type="module"></script>
+    <script src="js/settingsbtn.js" type="module"></script>
+  </head>
+  <body>
+    <!-- <div id="yatzy-lobby" yatzy-lobby>
+      <div class="players-online-container" style="overflow: auto">
+        <div class="online-player">
+          <ul>
+            <li>
+              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
+            </li>
+            <li>
+              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
+            </li>
+            <li>
+              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
+            </li>
+            <li>
+              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
+            </li>
+            <li>
+              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
+            </li>
+            <li>
+              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
+            </li>
+            <li>
+              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="msg-input-display-container">
+        <div class="msg-display">
+          <div class="msg-container" style="display: flex; margin: 0.25rem">
+            <p style="margin-right: 0.25rem; font-weight: bold">Aqib:</p>
+            <p style="padding: 1rem; border-radius: 20px">
+              Lorem ipsum dolor sit amet is modi eius optio!
+            </p>
+          </div>
+        </div>
+        <div class="msg-input-send-btn-container">
+          <input type="text" class="msg-input" />
+          <div class="send-btn">Send</div>
+        </div>
+      </div>
+      <div class="active-rooms-container" active-rooms-container>
+        <ul
+          class="list-of-rooms"
+          list-of-rooms
+          style="background-color: #1f1; display: none"
+        >
+          <li class="game-li"><button id="join-room-btn">J</button> Game1</li>
+          <li class="game-li"><button id="join-room-btn">J</button> Game2</li>
+          <li class="game-li">
+            <button id="join-room-btn">J</button> Room With a Very Long Name!
+          </li>
+        </ul>
+
+        <div
+          class="make-room-settings"
+          make-room-settings
+          style="background-color: darkslategray; color: #fff; padding: 0.25rem"
+        >
+          <div class="room-name-psw-container">
+            <label for="room-name"><h4>Room Name</h4></label>
+            <input
+              type="text"
+              id="room-name"
+              room-name
+              placeholder="Optional"
+            />
+            <label for="room-password"><h4>Room Password</h4></label>
+            <input
+              type="text"
+              id="room-password"
+              room-password
+              placeholder="Optional"
+            />
+          </div>
+          <div class="time-settings" time-settings>
+            <h4>Time</h4>
+            <select name="time-options" id="time-options" time-options>
+              <option value="30s">30s</option>
+              <option value="1min">1 Min</option>
+              <option value="1min 30s">1 Min 30s</option>
+              <option selected value="2 Min">2 Min</option>
+              <option value="2 Min 30s">2 Min 30s</option>
+              <option value="3 Min">3 Min</option>
+              <option value="3 Min 30s">3 Min 30s</option>
+              <option value="4 Min">4 Min</option>
+              <option value="4 Min 30s">4 Min 30s</option>
+              <option value="5 Min">5 Min</option>
+            </select>
+          </div>
+          <div class="cpu-human-online">
+            <h4>Bot, Human or Online?</h4>
+            <select name="bot-cpu-online" id="bot-cpu-online" bot-cpu-online>
+              <option value="bot">Bot</option>
+              <option value="human">Human</option>
+              <option selected value="online">Online</option>
+            </select>
+          </div>
+          <label for="friends-only"><h4>Friend's Only?</h4></label>
+          <input
+            type="checkbox"
+            id="friends-only"
+            name="friends-only"
+            value="friend's only"
+          />
+          <label for="audience-allowed"><h4>Audience Allowed?</h4></label>
+          <input
+            type="checkbox"
+            id="audience-allowed"
+            name="audience-allowed"
+            value="audience-allowed"
+          />
+        </div>
+        <button class="make-room-btn" make-room-btn>Make</button>
+        <button class="join-room-btn">Join</button>
+      </div>
+    </div> -->
+
+    <div class="connect-four-container" connect-four-container>
+      
+        <div class="container">
+        <div class="connect-four">
+          <div class="connect-four-grid">
+            <div class="cell drop-cell"></div>
+            <div class="cell drop-cell"></div>
+            <div class="cell drop-cell"></div>
+            <div class="cell drop-cell"></div>
+            <div class="cell drop-cell"></div>
+            <div class="cell drop-cell"></div>
+            <div class="cell drop-cell"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main">
+             <div class="piece yellow"></div>
+            </div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
+            <div class="cell main">
+            <div class="piece red"></div>
+            </div>
+          </div>
+           
+        </div>
+        
+        
+        <div class="dice-container" dice-container>
+        </div>  <!--Dice go in here-->
+       <!-- Moved container -->
+       <div class="g-info-container">
+        <div class="game-state-msg" style="display: none">
+          <!-- black container for win lose msg and button for rematch-->
+          <div
+            class="win-msg-container"
+            style="
+              display: flex;
+
+              justify-content: center;
+              flex-direction: column;
+            "
+          >
+            <p
+              class="win-lose-draw-msg"
+              style="
+                margin: auto;
+                color: #fff;
+                font-size: 2.2rem;
+                font-weight: bold;
+              "
+            >
+              You Win!
+            </p>
+            <button class="game-state-btn">Restart</button>
+          </div>
+        </div>
+
+        <!-- <p
+          class="game-state-msg"
+          game-state-msg
+          style="font-size: 2.5rem; margin: auto"
+        ></p> -->
+
+        <div class="right-three-columns" style="">
+          <div class="game-info-container right-three-columns" 
+          style="">
+          <!-- background-image: linear-gradient(rgb(212, 212, 212), #fff); -->
+            
+           
+            <!-- Put here -->
+            
+              <div class="outline-container">
+                <p class="time-left four-info-txt" time-left>Time Left:</p>
+                <p class="turns-left four-info-txt" turns-left>Turns Left:</p>
+                <p class="whose-turn four-info-txt" whose-turn>Whose Turn</p>
+                <p class="opponent-turn four-info-txt" opponent-turn>
+                  Opponent' Turn
+                </p>
+              </div>
+              <button class="roll-btn" roll-btn>Roll</button>
+              <button class="concede-btn">Concede</button>
+              <div class="settings-container">
+                <button class="settings-btn" settings-btn></button>
+                <div class="settings-dropdown" settings-dropdown tabindex="0">
+                  <div class="audio-container">
+                    <label for="audio">Audio</label>
+                    <input type="checkbox" name="audio" id="audio" />
+                  </div>
+                  <div class="themes">
+                    <label for="theme-selector" theme-selector>Themes</label>
+                    <select name="theme-selector" id="theme-selector">
+                      <option value="white">White</option>
+                      <option value="#3EB489">Mint</option>
+                      <option value="#C2E5D3">Pale Mint</option>
+                      <option value="#7CFC00">Light Grass</option>
+                      <option value="#567d46 ">Medium Grass</option>
+                      <option value="rgb(183, 255, 180)">Greeny</option>
+                      <option value="green">Green</option>
+                      <option value="red">Red</option>
+                      <option value="#ffcccb">Light Red</option>
+                      <option value="darkred">Dark Red</option>
+                      <option value="orange">Orange</option>
+                      <option value="#FFD580">Light Orange</option>
+                      <option value="#FFA500">Orange Orange</option>
+                      <option value="pink">Pink</option>
+                      <option value="lightpink">Light Pink</option>
+                      <option value="#AA336A">Dark Pink</option>
+                      <option value="skyblue">Sky Blue</option>
+                      <option value="#2B65EC">Ocean Blue</option>
+                      <option value="#202A44">Navy Blue</option>
+                      <option value="#00FFFF">Aqua</option>
+                      <option value="#ADD8E6">Light Blue</option>
+                      <option value="purple">Purple</option>
+                      <option value="#C8A2C8">Lilac</option>
+                      <option value="#E6E6FA">Lavender</option>
+                      <option value="#734F96">Dark Lavender</option>
+                      <option value="brown">Brown</option>
+                      <option value="#C4A484">Light Brown</option>
+                      <option value="#663300">Wood Brown</option>
+                      <option value="rgb(69, 80, 80);">Grey</option>
+                      <option value="lightgray">Light Grey</option>
+                      <option value="slategray">Slate Grey</option>
+                      <option value="rgb(252, 253, 199);">Light Yellow</option>
+                      <option value="#FFFF00">Yellow</option>
+                      <option value="#F6BE00">Dark Yellow</option>
+                      <option value="black">Black</option>
+                    </select>
+                    <div>
+                      <label for="checkbox">Stripy Theme?</label>
+                      <input type="checkbox" id="stripyNth" stripyNth />
+                    </div>
+                  </div>
+                </div>
+              </div>
+           
+           
+          </div>
+        </div>
+      </div>
+       
+      <!-- Game Chat -->
+      <!-- <div id="g-chat-container"> 
+        <div class="g-players-container">
+          <h4>Players</h4>
+          <div class="g-players">
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+          </div>
+        </div>
+        <div class="g-chat-window-container">
+          <div class="g-chat-window">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt iste
+              est ipsa voluptates! Quis veritatis pariatur doloremque dolore
+              quibusdam quaerat!
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam,
+              delectus.
+            </p>
+          </div>
+          <div class="input-send-btn-container">
+            <input type="text" class="msg-input" />
+            <button class="msg-btn">Send</button>
+          </div>
+        </div>
+        <div class="g-audience-container">
+          <h4>Audience</h4>
+          <div class="g-audience">
+            <p class="player">Player</p>
+            <p class="player">Player</p>
+          </div>
+        </div>
+      </div>  -->
+    </div>
+    
+  </body>
+</html>
