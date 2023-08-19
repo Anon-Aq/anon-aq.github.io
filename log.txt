@@ -1,8 +1,2 @@
-dice as number txt, dots all css!!
+add drop animation when player places piece
 
-new round btn , lobby btn
-
-win - lose - draw msg
-
-//
-both side dice and pf style. Side dice is excellent for mobile.

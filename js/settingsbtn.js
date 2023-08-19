@@ -1,17 +1,17 @@
 "use strict";
-var settingsBtn = document.querySelector('[settings-btn]');
-var settingsDropDown = document.querySelector('[settings-dropdown]');
-settingsBtn === null || settingsBtn === void 0 ? void 0 : settingsBtn.addEventListener('click', function () {
+const settingsBtn = document.querySelector('[settings-btn]');
+const settingsDropDown = document.querySelector('[settings-dropdown]');
+settingsBtn?.addEventListener('click', () => {
     // settingsDropDown.focus();
-    settingsDropDown === null || settingsDropDown === void 0 ? void 0 : settingsDropDown.classList.toggle('active');
+    settingsDropDown?.classList.toggle('active');
 });
-settingsDropDown === null || settingsDropDown === void 0 ? void 0 : settingsDropDown.addEventListener('blur', function () {
+settingsDropDown?.addEventListener('blur', () => {
     // alert('j')
-    settingsDropDown === null || settingsDropDown === void 0 ? void 0 : settingsDropDown.classList.remove('active');
+    settingsDropDown?.classList.remove('active');
 });
-var diceIncrementedCount = [0, 0, 0, 0, 0, 0];
-var playerDiceColl = [3, 6, 5, 2, 3];
-for (var i = 1; i < diceIncrementedCount.length; i++) {
+const diceIncrementedCount = [0, 0, 0, 0, 0, 0];
+const playerDiceColl = [3, 6, 5, 2, 3];
+for (let i = 1; i < diceIncrementedCount.length; i++) {
     // console.log(i - 1) // playerdiceColl
     // console.log(i);
     // if (playerDiceColl[i - 1] === (i + 1)) {

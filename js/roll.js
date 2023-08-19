@@ -1,28 +1,26 @@
 import Die from "./die.js";
 import Random from "./random.js";
 import Results from "./results.js";
-var RollButton = /** @class */ (function () {
-    function RollButton(player, yatzySheet) {
+export default class RollButton {
+    constructor(player, yatzySheet) {
         this.btn = document.querySelector('[roll-btn]');
         this.player = player;
         this.initialize();
         this.results = new Results(yatzySheet);
     }
-    RollButton.prototype.initialize = function () {
-        var _this = this;
-        var _a;
-        (_a = this.btn) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () { _this.rollDice(); });
-    };
-    RollButton.prototype.rollDice = function () {
+    initialize() {
+        this.btn?.addEventListener('click', () => { this.rollDice(); });
+    }
+    rollDice() {
         if (this.player.isFirstRoll) {
-            for (var i = 0; i < 5; i++) {
-                var die = new Die(Random.random(6), false);
+            for (let i = 0; i < 5; i++) {
+                const die = new Die(Random.random(6), false);
                 this.player.isFirstRoll = false;
                 this.player.diceCollection.push(die);
                 // this.player.diceCollection.keptDice.push(die);
             }
         }
-        for (var i = 0; i < this.player.diceCollection.length; i++) {
+        for (let i = 0; i < this.player.diceCollection.length; i++) {
             if (this.player.diceCollection[i].isHeld)
                 continue;
             this.player.diceCollection[i].number = Random.random(6);
@@ -32,8 +30,6 @@ var RollButton = /** @class */ (function () {
         }
         // console.log('D Coll' + this.player.diceCollection);
         this.results.currentSixDiceCount(this.player.diceCollection);
-    };
-    return RollButton;
-}());
-export default RollButton;
+    }
+}
 // const roll = new RollButton(new Player('Aqib', 'img', 10, true));

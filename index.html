@@ -10,16 +10,11 @@
     <script>
       var exports = {};
     </script>
-    <script src="js/die.js" type="module"></script>
-    <script src="js/yatzyTable.js" type="module"></script>
     <script src="js/player.js" type="module"></script>
-    <script src="js/roll.js" type="module"></script>
-    <script src="js/random.js" type="module"></script>
-    <script src="js/yatzysheet.js" type="module"></script>
-    <script src="js/results.js" type="module"></script>
     <script src="js/manager.js" type="module"></script>
     <script src="/js/themes.js" type="module"></script>
     <script src="js/settingsbtn.js" type="module"></script>
+    <script src="js/board.js" type="module"></script>
   </head>
   <body>
     <!-- <div id="yatzy-lobby" yatzy-lobby>
@@ -185,9 +180,6 @@
             <div class="cell main"></div>
             <div class="cell main"></div>
             <div class="cell main"></div>
-            <div class="cell main">
-             <div class="piece yellow"></div>
-            </div>
             <div class="cell main"></div>
             <div class="cell main"></div>
             <div class="cell main"></div>
@@ -196,19 +188,15 @@
             <div class="cell main"></div>
             <div class="cell main"></div>
             <div class="cell main"></div>
-            <div class="cell main">
-            <div class="piece red"></div>
-            </div>
+            <div class="cell main"></div>
+            <div class="cell main"></div>
           </div>
            
         </div>
         
-        
-        <div class="dice-container" dice-container>
-        </div>  <!--Dice go in here-->
        <!-- Moved container -->
        <div class="g-info-container">
-        <div class="game-state-msg" style="display: none">
+        <div class="game-state-msg">
           <!-- black container for win lose msg and button for rematch-->
           <div
             class="win-msg-container"
@@ -223,14 +211,14 @@
               class="win-lose-draw-msg"
               style="
                 margin: auto;
-                color: #fff;
+                color: #000;
                 font-size: 2.2rem;
                 font-weight: bold;
               "
             >
               You Win!
             </p>
-            <button class="game-state-btn">Restart</button>
+            <!-- <button class="game-state-btn">Restart</button> -->
           </div>
         </div>
 
@@ -240,27 +228,18 @@
           style="font-size: 2.5rem; margin: auto"
         ></p> -->
 
-        <div class="right-three-columns" style="">
+        <div class="right-three-columns">
           <div class="game-info-container right-three-columns" 
           style="">
+          <button class="btn-reset">Reset</button>
+          <button class="btn-concede">Concede</button>
+
           <!-- background-image: linear-gradient(rgb(212, 212, 212), #fff); -->
-            
            
             <!-- Put here -->
-            
-              <div class="outline-container">
-                <p class="time-left four-info-txt" time-left>Time Left:</p>
-                <p class="turns-left four-info-txt" turns-left>Turns Left:</p>
-                <p class="whose-turn four-info-txt" whose-turn>Whose Turn</p>
-                <p class="opponent-turn four-info-txt" opponent-turn>
-                  Opponent' Turn
-                </p>
-              </div>
-              <button class="roll-btn" roll-btn>Roll</button>
-              <button class="concede-btn">Concede</button>
-              <div class="settings-container">
+              <!-- <div class="settings-container">
                 <button class="settings-btn" settings-btn></button>
-                <div class="settings-dropdown" settings-dropdown tabindex="0">
+                <div class="settings-dropdown" settings-dropdown tabindex="0" style="display: none;">
                   <div class="audio-container">
                     <label for="audio">Audio</label>
                     <input type="checkbox" name="audio" id="audio" />
@@ -310,63 +289,13 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
            
            
           </div>
         </div>
       </div>
        
-      <!-- Game Chat -->
-      <!-- <div id="g-chat-container"> 
-        <div class="g-players-container">
-          <h4>Players</h4>
-          <div class="g-players">
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-          </div>
-        </div>
-        <div class="g-chat-window-container">
-          <div class="g-chat-window">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt iste
-              est ipsa voluptates! Quis veritatis pariatur doloremque dolore
-              quibusdam quaerat!
-            </p>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam,
-              delectus.
-            </p>
-          </div>
-          <div class="input-send-btn-container">
-            <input type="text" class="msg-input" />
-            <button class="msg-btn">Send</button>
-          </div>
-        </div>
-        <div class="g-audience-container">
-          <h4>Audience</h4>
-          <div class="g-audience">
-            <p class="player">Player</p>
-            <p class="player">Player</p>
-          </div>
-        </div>
-      </div>  -->
     </div>
     
   </body>

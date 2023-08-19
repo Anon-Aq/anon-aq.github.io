@@ -1,6 +1,6 @@
-var YatzySheet = /** @class */ (function () {
+export default class YatzySheet {
     //real sheet constructor
-    function YatzySheet(player, opponent) {
+    constructor(player, opponent) {
         this.sheetValues = []; //possibleScore, RegisteredBool
         this.player = player;
         this.playerName = player.name;
@@ -16,22 +16,17 @@ var YatzySheet = /** @class */ (function () {
     //     this.possibleCells = document.querySelectorAll('.player-one');
     //     this.initalizeSheet();
     // }
-    YatzySheet.prototype.initalizeSheet = function () {
-        var _this = this;
-        var _loop_1 = function (i) {
-            this_1.sheetValues.push([0, false]);
+    initalizeSheet() {
+        for (let i = 0; i < this.possibleCells.length; i++) {
+            this.sheetValues.push([0, false]);
             if (i === 6 || i === 7 || i === 17)
-                return "continue";
-            this_1.possibleCells[i].addEventListener('click', function () { _this.registerClick(_this.possibleCells[i], i); });
-            this_1.possibleCells[i].addEventListener('mouseover', function () { _this.hoverScore(_this.possibleCells[i], i); });
-            this_1.possibleCells[i].addEventListener('mouseout', function () { _this.hoverOut(_this.possibleCells[i], i); });
-        };
-        var this_1 = this;
-        for (var i = 0; i < this.possibleCells.length; i++) {
-            _loop_1(i);
+                continue;
+            this.possibleCells[i].addEventListener('click', () => { this.registerClick(this.possibleCells[i], i); });
+            this.possibleCells[i].addEventListener('mouseover', () => { this.hoverScore(this.possibleCells[i], i); });
+            this.possibleCells[i].addEventListener('mouseout', () => { this.hoverOut(this.possibleCells[i], i); });
         }
-    };
-    YatzySheet.prototype.registerClick = function (cell, index) {
+    }
+    registerClick(cell, index) {
         if (this.sheetValues[index][1])
             return;
         cell.classList.remove('active');
@@ -51,25 +46,24 @@ var YatzySheet = /** @class */ (function () {
         }
         // 6-7 and 17
         this.allTurnsTaken();
-    };
-    YatzySheet.prototype.allTurnsTaken = function () {
-        var _this = this;
-        var topSixReg = [];
-        var allValuesReg = false;
-        var allVals = [];
-        for (var i = 0; i < 6; i++) {
+    }
+    allTurnsTaken() {
+        let topSixReg = [];
+        let allValuesReg = false;
+        let allVals = [];
+        for (let i = 0; i < 6; i++) {
             topSixReg.push(this.sheetValues[i][1]);
         }
-        if (topSixReg.every(function (val) { return val === true; })) {
+        if (topSixReg.every((val) => val === true)) {
             this.sheetValues[6][1] = true;
             this.sheetValues[7][1] = true;
         }
-        for (var i = 0; i < this.sheetValues.length; i++) {
-            console.log("Turns Taken ".concat(i, " ").concat(this.sheetValues[i][1]));
+        for (let i = 0; i < this.sheetValues.length; i++) {
+            console.log(`Turns Taken ${i} ${this.sheetValues[i][1]}`);
             allVals.push(this.sheetValues[i][1]);
-            allValuesReg = allVals.every(function (val, index) {
+            allValuesReg = allVals.every((val, index) => {
                 if (index === 17) {
-                    _this.sheetValues[17][1] = true;
+                    this.sheetValues[17][1] = true;
                     return true;
                 }
                 return val === true;
@@ -80,8 +74,8 @@ var YatzySheet = /** @class */ (function () {
             alert('a');
         }
         console.log('Sheet Values 2', this.sheetValues);
-    };
-    YatzySheet.prototype.hoverScore = function (cell, index) {
+    }
+    hoverScore(cell, index) {
         if (this.sheetValues[index][1])
             return;
         cell.innerText = this.sheetValues[index][0].toString();
@@ -90,8 +84,8 @@ var YatzySheet = /** @class */ (function () {
         this.showTotalTop(index);
         this.showBonus(index);
         this.showTotalCount(index);
-    };
-    YatzySheet.prototype.hoverOut = function (cell, index) {
+    }
+    hoverOut(cell, index) {
         if (!this.sheetValues[index][1]) {
             this.possibleCells[6].textContent = this.player.sheetScores[6].toString();
             this.possibleCells[6].classList.remove('active');
@@ -109,15 +103,15 @@ var YatzySheet = /** @class */ (function () {
         if (this.sheetValues[index][1])
             return;
         this.possibleCells[index].textContent = '';
-    };
-    YatzySheet.prototype.showTotalTop = function (index) {
+    }
+    showTotalTop(index) {
         if (!this.sheetValues[index][1] && index < 6) {
-            var possibleTotalTop = this.sheetValues[index][0] + this.player.sheetScores[6];
+            const possibleTotalTop = this.sheetValues[index][0] + this.player.sheetScores[6];
             this.possibleCells[6].textContent = possibleTotalTop.toString();
             this.possibleCells[6].classList.add('active');
         }
-    };
-    YatzySheet.prototype.showBonus = function (index) {
+    }
+    showBonus(index) {
         if (index < 6 && !this.sheetValues[7][1]) {
             if (this.player.sheetScores[6] + this.sheetValues[index][0] >= 63) {
                 this.sheetValues[7][0] = 50;
@@ -125,29 +119,27 @@ var YatzySheet = /** @class */ (function () {
                 this.possibleCells[7].classList.add('active');
             }
         }
-    };
-    YatzySheet.prototype.regBonus = function () {
+    }
+    regBonus() {
         this.player.sheetScores[7] = 50;
         this.player.sheetScores[17] += this.player.sheetScores[7];
         this.sheetValues[7][1] = true;
         this.possibleCells[7].textContent = this.player.sheetScores[7].toString();
         this.possibleCells[7].classList.remove('active');
         this.possibleCells[17].textContent = this.player.sheetScores[7].toString();
-    };
-    YatzySheet.prototype.showTotalCount = function (index) {
+    }
+    showTotalCount(index) {
         if (this.sheetValues[7][1]) {
             this.sheetValues[7][0] = 0;
         }
         this.sheetValues[17][0] = this.sheetValues[index][0] + this.player.sheetScores[17] + this.sheetValues[7][0];
         this.possibleCells[17].textContent = this.sheetValues[17][0].toString();
         this.possibleCells[17].classList.add('active');
-    };
-    YatzySheet.prototype.totalCount = function (index) {
+    }
+    totalCount(index) {
         this.player.sheetScores[17] += this.player.sheetScores[index];
         this.possibleCells[17].textContent = this.player.sheetScores[17].toString();
-    };
-    return YatzySheet;
-}());
-export default YatzySheet;
+    }
+}
 // const yatzySheet = new YatzySheet();
 // const yatzySheet = new YatzySheet(new Player('a', 5, false), 'a', 'a');

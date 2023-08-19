@@ -1,5 +1,5 @@
-var Die = /** @class */ (function () {
-    function Die(number, isHeld) {
+export default class Die {
+    constructor(number, isHeld) {
         this.number = 0;
         this.isHeld = false;
         this.image = '';
@@ -10,34 +10,29 @@ var Die = /** @class */ (function () {
         this.initialize();
         this.createDiceEl(number);
     }
-    Die.prototype.initialize = function () {
-        var _this = this;
-        this.dieEl.addEventListener('click', function () {
+    initialize() {
+        this.dieEl.addEventListener('click', () => {
             // this.isHeld = true;
-            _this.isHeld = !_this.isHeld;
-            if (_this.isHeld) {
-                _this.dieEl.style.backgroundColor = '#000';
-                _this.dieEl.style.color = '#fff';
+            this.isHeld = !this.isHeld;
+            if (this.isHeld) {
+                this.dieEl.style.backgroundColor = '#000';
+                this.dieEl.style.color = '#fff';
             }
-            console.log(_this.isHeld);
-            if (!_this.isHeld) {
-                _this.dieEl.style.backgroundColor = '#fff';
-                _this.dieEl.style.color = '#000';
+            console.log(this.isHeld);
+            if (!this.isHeld) {
+                this.dieEl.style.backgroundColor = '#fff';
+                this.dieEl.style.color = '#000';
             }
         });
-    };
-    Die.prototype.createDiceEl = function (dieNumber) {
-        var _a;
-        this.dieEl.setAttribute('style', "background-color: ".concat(this.color, "; width: 50px; height: 50px;"));
+    }
+    createDiceEl(dieNumber) {
+        this.dieEl.setAttribute('style', `background-color: ${this.color}; width: 50px; height: 50px;`);
         this.dieEl.classList.add('die');
         this.dieEl.innerHTML = this.number.toString();
-        (_a = document.querySelector('[dice-container]')) === null || _a === void 0 ? void 0 : _a.appendChild(this.dieEl);
+        document.querySelector('[dice-container]')?.appendChild(this.dieEl);
         // console.log('Dice Number = ' + this.number);
-    };
-    Die.prototype.removeDie = function () {
-        var _a;
-        (_a = document.querySelector('[dice-container]')) === null || _a === void 0 ? void 0 : _a.removeChild(this.dieEl);
-    };
-    return Die;
-}());
-export default Die;
+    }
+    removeDie() {
+        document.querySelector('[dice-container]')?.removeChild(this.dieEl);
+    }
+}

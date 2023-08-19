@@ -1,9 +1,5 @@
-var Random = /** @class */ (function () {
-    function Random() {
-    }
-    Random.random = function (number) {
+export default class Random {
+    static random(number) {
         return Math.floor(Math.random() * number + 1);
-    };
-    return Random;
-}());
-export default Random;
+    }
+}
