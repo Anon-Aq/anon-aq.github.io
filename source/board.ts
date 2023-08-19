@@ -7,6 +7,7 @@ const btnReset = document.querySelector('.btn-reset');
 enum pieceColor {yellow  = 'yellow', red = 'red'}
 let cssColorClass = pieceColor.yellow;
 let currentTurnColor = pieceColor.yellow;
+let isGameOver = false;
 let isTurn: boolean = true;
 // const possibleCombinations: {} = {up: -1, down: 1, left: -1, right: 1}
 enum possibleCombinations {down = 'down', right = 'right', upRight = 'upRight', downRight = 'downRight'};
@@ -14,12 +15,14 @@ enum possibleCombinations {down = 'down', right = 'right', upRight = 'upRight', 
 const cells: NodeListOf<Element> = document.querySelectorAll('.cell');
 const dropCells: NodeListOf<Element> = document.querySelectorAll('.cell.drop-cell');
 const eCell: any [][] = [];    // for easier access 
+const winLoseMsg = document.querySelector('.win-lose-draw-msg');
 initialize();
 
 function initialize() {
    dropCells.forEach((dCell: Element) => {
     dCell.addEventListener('mouseover', () => {
         // dCell.setAttribute('style', `background-color: ${cssColorClass};`);
+        if (!isGameOver)
         dCell.classList.add(cssColorClass)
         // dCell.classList.add('yellow');
 
@@ -29,19 +32,20 @@ function initialize() {
 
     });
     dCell.addEventListener('click', () => {
-        //All to do with drop cell color state can change into a function also can add after animation + delay
+        if (!isGameOver) {
+             //All to do with drop cell color state can change into a function also can add after animation + delay
         dCell.classList.remove('red', 'yellow');
         if (cssColorClass == pieceColor.yellow) {
             cssColorClass = pieceColor.red;
-        dCell.classList.add(cssColorClass);
+            dCell.classList.add(cssColorClass);
 
         }
         else {
         cssColorClass = pieceColor.yellow;
         dCell.classList.add(cssColorClass);
-
-
         }
+        }
+       
     });
    });
 
@@ -69,8 +73,11 @@ function initialize() {
             // console.log(eCell[i][j]);
             eCell[i][j].addEventListener('click', (e: Event) => {
                 // console.log('row and col = ', i, j);
-                placePiece(i, j, currentTurnColor);
-                swichPlayer();
+                if (!isGameOver) {
+                    placePiece(i, j, currentTurnColor);
+                    swichPlayer();
+                }
+               
 
             });
         }
@@ -88,12 +95,36 @@ function placePiece(row: number, col: number, pieceColor: string) {
             const pieceElem = document.createElement('div');
             pieceElem.classList.add('piece');
             pieceElem.classList.add(pieceColor);
+            switch(i) {
+                case 0:
+                    setAnimation(pieceElem, i, 250);
+                    break;
+                case 1:
+                    setAnimation(pieceElem, i, 300);
+                    break;
+                case 2:
+                    setAnimation(pieceElem, i, 350);
+                    break;
+                case 3:
+                    setAnimation(pieceElem, i, 400);
+                    break;
+                case 4:
+                    setAnimation(pieceElem, i, 450);
+                    break;
+                case 5:
+                    setAnimation(pieceElem, i, 500);
+                    break;
+
+            }
+            // pieceElem.setAttribute('animation', 'drop-piece');
             eCell[i + 1][col].appendChild(pieceElem);
             cellArr[i][col] = pieceColor;
             // checkCombinations(i, col, color);
             break;
         }
     }
+
+    //add delay here
     const possCombos: string[] = Object.values(possibleCombinations);
 
     for (let i = 0; i < cellArr.length; i++) {
@@ -102,12 +133,40 @@ function placePiece(row: number, col: number, pieceColor: string) {
             possCombos.forEach((possCombo) => {
                 checkCombination(i, j, pieceColor.toString(), possCombo);
             });
-
-             
+ 
         }
     }
     
 }
+
+function setAnimation(pieceEl: HTMLElement, row: number, duration: number) {
+    const cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size');
+    pieceEl.animate([
+        // key frames
+        { transform: `translateY(calc(var(--cell-size) * ${-row}))`}, // from top
+        { transform: 'translateY(calc(var(--cell-size) - var(--cell-size)))'} // to bottom
+      ], {
+        // sync options
+        duration: duration,
+        // iterations: Infinity
+        
+      });
+// }
+//     pieceEl.animate([
+//         // key frames
+//         { transform: 'translateY(0px)' },
+//         { transform: 'translateY(-300px)' }
+//       ], {
+//         // sync options
+//         duration: 1000,
+//         // iterations: Infinity
+        
+//       });
+}
+
+// function callCombinationCheck() {
+   
+// }
 
 let winningCombination: number[][]  = [[]];
 //check left, right, up, down, diagonally 2
@@ -167,6 +226,12 @@ function checkCombination(row: number, col: number, pieceColor: string, possComb
             winningCombination = innerwinningCombination;
             highlightWinPiece(winningCombination, pieceColor);
             console.log('You Win! 4 in a row');
+            isGameOver = true;
+            dropCells.forEach((dCell) => {
+                dCell.classList.remove('red', 'yellow');
+            });
+
+
         }
 
     }
@@ -195,25 +260,21 @@ function swichPlayer() {
 function highlightWinPiece(winningCombination: number [][], color: string) {
     // console.log('winning combo numbers = ', winningCombination);
     for (let i = 0; i < winningCombination.length; i++) {
-        // for (let j = 0; j < winningCombination[i].length; j++) {
-        // alert('a');
-        // console.log('ij= ', winningCombination[i][0] + 1, winningCombination[i][1]);
-        // console.log('jj= ', );
         
-        console.log(eCell[(winningCombination[i][0]) + 1][winningCombination[i][1]]!.firstChild);
-        // eCell[(winningCombination[i][0] + 1)][winningCombination[i][1]]!.firstChild?.classList.add('piece-highlight');
-        // eCell[(winningCombination[i][0] + 1)][winningCombination[i][1]].innerHTML = '';
-        // if(eCell[(winningCombination[i][0] + 1)][winningCombination[i][1]].firstChild) {
-            eCell[(winningCombination[i][0] + 1)][winningCombination[i][1]].firstChild.classList.add('piece-highlight');
-        // }
+        eCell[(winningCombination[i][0] + 1)][winningCombination[i][1]].firstChild.classList.add('piece-highlight');
       
     }
+    winLoseMsg!.textContent = `${currentTurnColor} Wins!`;
+
 
     
     
 }
 
 function resetGame() {
+    isGameOver = false;
+    winLoseMsg!.textContent = '';
+
    for (let i = 0; i < eCell.length; i++) {
     for (let j = 0; j < eCell[i].length; j++) {
         eCell[i][j].innerHTML = '';
@@ -225,6 +286,7 @@ function resetGame() {
         }
     }
    }
+//    currentTurnColor = pieceColor.yellow;
 }
 
 
