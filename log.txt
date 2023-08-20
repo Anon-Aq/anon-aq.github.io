@@ -1,2 +1,3 @@
-add drop animation when player places piece
+remove piece highlight on click and add back once time is over
+highlight piece after delay
 

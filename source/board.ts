@@ -14,7 +14,7 @@ enum possibleCombinations {down = 'down', right = 'right', upRight = 'upRight', 
 //42 playable cells
 const cells: NodeListOf<Element> = document.querySelectorAll('.cell');
 const dropCells: NodeListOf<Element> = document.querySelectorAll('.cell.drop-cell');
-const eCell: any [][] = [];    // for easier access 
+const eCell: any [][] = [];    // for easier access of all the cells inc drop cells
 const winLoseMsg = document.querySelector('.win-lose-draw-msg');
 initialize();
 
@@ -73,9 +73,11 @@ function initialize() {
             // console.log(eCell[i][j]);
             eCell[i][j].addEventListener('click', (e: Event) => {
                 // console.log('row and col = ', i, j);
+
                 if (!isGameOver) {
                     placePiece(i, j, currentTurnColor);
-                    swichPlayer();
+                    
+                    switchPlayer();
                 }
                
 
@@ -86,9 +88,14 @@ function initialize() {
 
     btnReset?.addEventListener('click', () => resetGame());
 }
+
+function delay(ms: number) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    })
+}
  
-function placePiece(row: number, col: number, pieceColor: string) {
-    
+async function placePiece(row: number, col: number, pieceColor: string) {
       for (let i = rows - 1; i >= 0; i--) {
         if (cellArr[i][col] == 'empty') {
             //place piece on that drop cell
@@ -96,27 +103,26 @@ function placePiece(row: number, col: number, pieceColor: string) {
             pieceElem.classList.add('piece');
             pieceElem.classList.add(pieceColor);
             switch(i) {
-                case 0:
+                case 0: 
+                    setAnimation(pieceElem, i, 150);
+                    break;
+                case 1: 
+                    setAnimation(pieceElem, i, 200);
+                    break;
+                case 2: 
                     setAnimation(pieceElem, i, 250);
                     break;
-                case 1:
+                case 3: 
                     setAnimation(pieceElem, i, 300);
                     break;
-                case 2:
+                case 4: 
                     setAnimation(pieceElem, i, 350);
                     break;
-                case 3:
+                case 5: 
                     setAnimation(pieceElem, i, 400);
                     break;
-                case 4:
-                    setAnimation(pieceElem, i, 450);
-                    break;
-                case 5:
-                    setAnimation(pieceElem, i, 500);
-                    break;
-
+                 
             }
-            // pieceElem.setAttribute('animation', 'drop-piece');
             eCell[i + 1][col].appendChild(pieceElem);
             cellArr[i][col] = pieceColor;
             // checkCombinations(i, col, color);
@@ -131,6 +137,7 @@ function placePiece(row: number, col: number, pieceColor: string) {
         for (let j = 0; j < cellArr[i].length; j++) {
             
             possCombos.forEach((possCombo) => {
+
                 checkCombination(i, j, pieceColor.toString(), possCombo);
             });
  
@@ -148,8 +155,7 @@ function setAnimation(pieceEl: HTMLElement, row: number, duration: number) {
       ], {
         // sync options
         duration: duration,
-        // iterations: Infinity
-        
+        easing: 'ease-in'        
       });
 // }
 //     pieceEl.animate([
@@ -170,7 +176,7 @@ function setAnimation(pieceEl: HTMLElement, row: number, duration: number) {
 
 let winningCombination: number[][]  = [[]];
 //check left, right, up, down, diagonally 2
-function checkCombination(row: number, col: number, pieceColor: string, possCombo: string) {
+async function checkCombination(row: number, col: number, pieceColor: string, possCombo: string) {
     let count = 0;
     let innerwinningCombination: number[][] = [];
     
@@ -238,7 +244,7 @@ function checkCombination(row: number, col: number, pieceColor: string, possComb
 }
 
 
-function swichPlayer() {
+function switchPlayer() {
     isTurn = !isTurn;
     // cssColorClass = '';
 
@@ -257,10 +263,10 @@ function swichPlayer() {
 }
 // const wc: number[][] = [[1,2], [5,6]];
 
-function highlightWinPiece(winningCombination: number [][], color: string) {
+async function highlightWinPiece(winningCombination: number [][], color: string) {
+
     // console.log('winning combo numbers = ', winningCombination);
-    for (let i = 0; i < winningCombination.length; i++) {
-        
+    for (let i = 0; i < winningCombination.length; i++) {        
         eCell[(winningCombination[i][0] + 1)][winningCombination[i][1]].firstChild.classList.add('piece-highlight');
       
     }
