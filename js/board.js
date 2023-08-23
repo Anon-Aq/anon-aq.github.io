@@ -152,7 +152,6 @@ function setAnimation(pieceEl, row, duration) {
     //         duration: 1000,
     //         // iterations: Infinity
     //       });
-    IsADraw();
 }
 // function callCombinationCheck() {
 // }
@@ -213,21 +212,17 @@ async function checkCombination(row, col, pieceColor, possCombo) {
         }
     }
 }
-function IsADraw() {
+function noEmptyCellsLeft() {
     // Turns 2d arr into 1D Arr
     //    const everyCell: [] =  [].concat(...allCells);
     let playableCells = [];
-    for (let i = 0; i < allCells.length; i++) {
-        for (let j = 0; j < allCells[i].length; j++) {
-            if (i > 0) {
-                playableCells.push(allCells[i][j]);
-            }
+    for (let i = 0; i < cellArr.length; i++) {
+        for (let j = 0; j < cellArr[i].length; j++) {
+            playableCells.push(cellArr[i][j]);
         }
     }
-    const isEmpty = playableCells.every((cell) => {
-        cell != 'empty';
-    });
-    console.log(isEmpty);
+    const isEmptyCells = !playableCells.includes('empty');
+    return isEmptyCells;
 }
 function switchPlayer() {
     switch (currentPlayerColor) {
@@ -253,6 +248,12 @@ function winMessage() {
             case pieceColor.red:
                 winLoseMsg.textContent = `${pieceColor.yellow} Wins!`;
                 break;
+        }
+    }
+    if (noEmptyCellsLeft()) {
+        if (!isGameOver) {
+            isGameOver = true;
+            winLoseMsg.textContent = `Draw!`;
         }
     }
 }

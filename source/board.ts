@@ -71,12 +71,13 @@ function initialize() {
                 // console.log('row and col = ', i, j);
 
                 if (!isGameOver) {
+
                     if(cellArr[0][j] != 'empty') return;
                     placePiece(i, j, currentPlayerColor);
                     switchPlayer();
+
                 }
                
-
             });
         }
 
@@ -164,7 +165,6 @@ function setAnimation(pieceEl: HTMLElement, row: number, duration: number) {
 //         // iterations: Infinity
         
 //       });
-    IsADraw();
 
 }
 
@@ -242,26 +242,23 @@ async function checkCombination(row: number, col: number, pieceColor: string, po
 
     
 }
-function IsADraw() { // use this function to check if game is a draw
+function noEmptyCellsLeft(): boolean { // use this function to check if game is a draw
          
         // Turns 2d arr into 1D Arr
     //    const everyCell: [] =  [].concat(...allCells);
 
        let playableCells: [] = [];
-       for (let i = 0; i < allCells.length; i++) {
-            for (let j = 0; j < allCells[i].length; j++) {
-                if (i > 0) {
-                    playableCells.push(allCells[i][j]);
-                    }
+       for (let i = 0; i < cellArr.length; i++) {
+            for (let j = 0; j < cellArr[i].length; j++) {
+                playableCells.push(cellArr[i][j]);
+                    
             }
            
 
        }
-       const isEmpty = playableCells.every((cell) => {
-        cell != 'empty'
-       });
+       const isEmptyCells = !playableCells.includes('empty');
 
-       console.log(isEmpty);
+       return isEmptyCells;
        
     
 }
@@ -297,6 +294,14 @@ function winMessage() {
             case pieceColor.red:
                 winLoseMsg!.textContent = `${pieceColor.yellow} Wins!`;
                 break;
+        }
+    }
+
+    if (noEmptyCellsLeft()) {
+        if (!isGameOver) {
+            isGameOver = true;
+            winLoseMsg!.textContent = `Draw!`;
+            
         }
     }
 }
