@@ -1,3 +1,4 @@
 remove piece highlight on click and add back once time is over
 highlight piece after delay
+check and put draw message if game is a draw!
 
