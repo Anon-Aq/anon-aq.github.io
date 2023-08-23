@@ -4,8 +4,8 @@ const columns = 7;
 const btnReset = document.querySelector('[btn-reset]');
 // const cssClrYellow = '#f9cd09';
 // const cssClrRed = '#dd0d11';
-enum pieceColor {yellow  = 'yellow', red = 'red'}
-let currentPlayerColor: pieceColor = pieceColor.yellow;
+const pieceColor = {yellow: 'yellow', red: 'red'} as const;
+let currentPlayerColor: string = pieceColor.yellow;
 let isGameOver = false;
 // let isTurn: boolean = true;
 // const possibleCombinations: {} = {up: -1, down: 1, left: -1, right: 1}

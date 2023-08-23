@@ -5,11 +5,7 @@ const columns = 7;
 const btnReset = document.querySelector('[btn-reset]');
 // const cssClrYellow = '#f9cd09';
 // const cssClrRed = '#dd0d11';
-var pieceColor;
-(function (pieceColor) {
-    pieceColor["yellow"] = "yellow";
-    pieceColor["red"] = "red";
-})(pieceColor || (pieceColor = {}));
+const pieceColor = { yellow: 'yellow', red: 'red' };
 let currentPlayerColor = pieceColor.yellow;
 let isGameOver = false;
 // let isTurn: boolean = true;
