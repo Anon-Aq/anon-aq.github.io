@@ -3,7 +3,6 @@ export default class Player {
     public name: string;
     public img: string;
     public timeLeft: number;
-    public isFirstRoll: boolean = true;
     public isTurn: boolean = false;
     public sheetScores: number [] = [];
     // public yatzySheet: YatzySheet;

@@ -1,33 +1,41 @@
-const cellArr: string [][] = [];
-const rows = 6;
-const columns = 7;
-const btnReset = document.querySelector('[btn-reset]');
-// const cssClrYellow = '#f9cd09';
-// const cssClrRed = '#dd0d11';
-const pieceColor = {yellow: 'yellow', red: 'red'} as const;
-let currentPlayerColor: string = pieceColor.yellow;
-let isGameOver = false;
-// let isTurn: boolean = true;
-// const possibleCombinations: {} = {up: -1, down: 1, left: -1, right: 1}
-enum possibleCombinations {down = 'down', right = 'right', upRight = 'upRight', downRight = 'downRight'};
-//49 cells?
-const cells: NodeListOf<Element> = document.querySelectorAll('[cell]');
-// const dropCells: NodeListOf<Element> = document.querySelectorAll('.cell.drop-cell');
-const dropCells: NodeListOf<Element> = document.querySelectorAll('[drop-cell]');
-const allCells: any [][] = [];    // for easier access of all the cells inc drop cells
-const winLoseMsg = document.querySelector('[win-lose-draw-msg]');
-initialize();
+import Manager from "./manager.js";
+import Piece from "./piece.js";
+import { PieceColor } from "./pieceColor.js";
+import Player from "./player.js";
 
-function initialize() {
-    // alert(cells.length);
-    winLoseMsg!.textContent = `Current Turn: ${currentPlayerColor}`;
+export default class Board {
+    cellMap: string [][] = [];
+    rows: number = 6;
+    columns: number = 7;
+    btnReset = document.querySelector('[btn-reset]');
+    currentPlayerColor: string = PieceColor.Yellow;
+    possibleCombinations = {Down: 'down', Right :'right', UpRight: 'upRight', DownRight: 'DownRight'} as const;
+    dropCells: NodeListOf<Element> = document.querySelectorAll('[drop-cell]'); // first row cells (hidden)
+    //49 cells?
+    cells: NodeListOf<Element> = document.querySelectorAll('[cell]');
+    // const this.dropCells: NodeListOf<Element> = document.querySelectorAll('.cell.drop-cell');
+    allCells: any [][] = [];    // for easier access of all the cells inc drop cells
+    manager: Manager;
+    winLoseMsg = document.querySelector('[win-lose-draw-msg]');
 
-   dropCells.forEach((dCell: Element) => {
+constructor() {
+    // alert('');
+this.manager = new Manager(new Player('Aqib', 'imgg', 0, true), new Player('opp', 'imgg', 0, false), 60);
+
+this.initialize();
+
+}
+
+initialize() {
+
+    // this.winLoseMsg!.textContent = `Current Turn: ${this.currentPlayerColor}`;
+    this.setWinLoseMessage(this.manager.currentTurnColor);
+
+   this.dropCells.forEach((dCell: Element) => {
     dCell.addEventListener('mouseover', () => {
-        // dCell.setAttribute('style', `background-color: ${currentPlayerColor};`);
-        if (!isGameOver) {
-        dCell.classList.add(currentPlayerColor);
-
+        // dCell.setAttribute('style', `background-color: ${this.currentPlayerColor};`);
+        if (!this.manager.isGameOver) {
+        dCell.classList.add(this.manager.currentTurnColor);
         }
 
     });
@@ -36,7 +44,7 @@ function initialize() {
 
     });
     dCell.addEventListener('click', () => {
-        if (!isGameOver) {
+        if (!this.manager.isGameOver) {
          //All to do with drop cell color state can change into a function also can add after animation + delay
         dCell.classList.remove('red', 'yellow');
         // switchPlayer();
@@ -46,35 +54,37 @@ function initialize() {
    });
 
     // console.log(cells.length);
-    for (let i = 0; i < rows; i++) {    
-        cellArr[i] = [];
-        for (let j = 0; j < columns; j++) {
-            cellArr[i][j] = 'empty';    //6 by 7 put as 'e' empty
+    for (let i = 0; i < this.rows; i++) {    
+        this.cellMap[i] = [];
+        for (let j = 0; j < this.columns; j++) {
+            this.cellMap[i][j] = PieceColor.Empty;    //6 by 7 put as 'e' empty
         }
     }
     let num = 0;
     //new for ease
-    for (let i = 0; i < rows + 1; i++) {    
-        allCells[i] = [];
-        for (let j = 0; j < columns; j++) {
-            num +=1;
+    for (let i = 0; i < this.rows + 1; i++) {    
+        this.allCells[i] = [];
+        for (let j = 0; j < this.columns; j++) {
+            num += 1;
             // console.log(num);
-             allCells[i][j] = cells[num - 1];
+             this.allCells[i][j] = this.cells[num - 1];
         }
     }
    
 
-    for (let i = 0; i < allCells.length; i++) {
-        for (let j = 0; j < allCells[i].length; j++) {
-            // console.log(allCells[i][j]);
-            allCells[i][j].addEventListener('click', (e: Event) => {
+    for (let i = 0; i < this.allCells.length; i++) {
+        for (let j = 0; j < this.allCells[i].length; j++) {
+            // console.log(this.allCells[i][j]);
+            this.allCells[i][j].addEventListener('click', (e: Event) => {
                 // console.log('row and col = ', i, j);
 
-                if (!isGameOver) {
+                if (!this.manager.isGameOver) {
 
-                    if(cellArr[0][j] != 'empty') return;
-                    placePiece(i, j, currentPlayerColor);
-                    switchPlayer();
+                    if(this.cellMap[0][j] != PieceColor.Empty) return;
+                    // this.placePiece(i, j, this.currentPlayerColor); // 
+                    this.placePiece(new Piece(this.manager.currentTurnColor, i, j));    //reimp
+                    this.manager.switchTurn();  // reimpliment
+                    this.winMessage();
 
                 }
                
@@ -83,59 +93,59 @@ function initialize() {
 
     }
 
-    btnReset?.addEventListener('click', () => resetGame());
+    this.btnReset?.addEventListener('click', () => this.manager.resetGame(this.allCells, this.cellMap)); //reimp
 }
 
-function delay(ms: number) {
+delay(ms: number) {
     return new Promise((resolve) => {
         setTimeout(resolve, ms);
     })
 }
  
-async function placePiece(row: number, col: number, pieceColor: string) {
-      for (let i = rows - 1; i >= 0; i--) {
-        if (cellArr[i][col] == 'empty') {
+ placePiece(piece: Piece) {
+      for (let i = this.rows - 1; i >= 0; i--) {
+        if (this.cellMap[i][piece.col] == 'empty' as string) {
             //place piece on that drop cell
-            const pieceElem = document.createElement('div');
-            pieceElem.classList.add('piece');
-            pieceElem.classList.add(pieceColor);
+            piece.row = i;
+            // console.log(piece.col);
             switch(i) {
                 case 0: 
-                    setAnimation(pieceElem, i, 150);
+                    this.setAnimation(piece, 150);
                     break;
                 case 1: 
-                    setAnimation(pieceElem, i, 200);
+                    this.setAnimation(piece, 200);
                     break;
                 case 2: 
-                    setAnimation(pieceElem, i, 250);
+                    this.setAnimation(piece, 250);
                     break;
                 case 3: 
-                    setAnimation(pieceElem, i, 300);
+                    this.setAnimation(piece, 300);
                     break;
                 case 4: 
-                    setAnimation(pieceElem, i, 350);
+                    this.setAnimation(piece, 350);
                     break;
                 case 5: 
-                    setAnimation(pieceElem, i, 400);
+                    this.setAnimation(piece, 400);
                     break;
                  
             }
-            allCells[i + 1][col].appendChild(pieceElem);
-            cellArr[i][col] = pieceColor;
+            this.allCells[i + 1][piece.col].appendChild(piece.pieceElem);
+            this.cellMap[i][piece.col] = piece.pieceColor;
             // checkCombinations(i, col, color);
             break;
         }
     }
 
     //add delay here
-    const possCombos: string[] = Object.values(possibleCombinations);
+    const possCombos: string[] = Object.values(this.possibleCombinations);
 
-    for (let i = 0; i < cellArr.length; i++) {
-        for (let j = 0; j < cellArr[i].length; j++) {
+    for (let i = 0; i < this.cellMap.length; i++) {
+        for (let j = 0; j < this.cellMap[i].length; j++) {
             
             possCombos.forEach((possCombo) => {
 
-                checkCombination(i, j, pieceColor.toString(), possCombo);
+                // this.checkCombination(i, j, PieceColor.Yellow, possCombo);  //reimp
+                this.checkCombination(i, j, this.manager.currentTurnColor, possCombo);  //reimp
             });
  
         }
@@ -143,38 +153,80 @@ async function placePiece(row: number, col: number, pieceColor: string) {
     
 }
 
-function setAnimation(pieceEl: HTMLElement, row: number, duration: number) {
+ setAnimation(piece: Piece, duration: number) {
     const cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size');
-    pieceEl.animate([
+    piece.pieceElem.animate([
         // key frames
-        { transform: `translateY(calc(var(--cell-size) * ${-row}))`}, // from top
+        { transform: `translateY(calc(var(--cell-size) * ${-piece.row}))`}, // from top
         { transform: 'translateY(calc(var(--cell-size) - var(--cell-size)))'} // to bottom
       ], {
         // sync options
         duration: duration,
         easing: 'ease-in'        
       });
-// }
-//     pieceEl.animate([
-//         // key frames
-//         { transform: 'translateY(0px)' },
-//         { transform: 'translateY(-300px)' }
-//       ], {
-//         // sync options
-//         duration: 1000,
-//         // iterations: Infinity
-        
-//       });
-
+ 
 }
 
 // function callCombinationCheck() {
    
 // }
 
-let winningCombination: number[][]  = [[]];
-//check left, right, up, down, diagonally 2
-async function checkCombination(row: number, col: number, pieceColor: string, possCombo: string) {
+ winningCombination: number[][]  = [[]];
+//check left, Right, up, Down, diagonally 2
+
+
+
+ winMessage() {
+    if (this.manager.isGameOver) {
+        switch (this.manager.currentTurnColor) {
+            case PieceColor.Yellow:
+                this.winLoseMsg!.textContent = `${PieceColor.Red} Wins!`;
+                break;
+            case PieceColor.Red:
+                this.winLoseMsg!.textContent = `${PieceColor.Yellow} Wins!`;
+                break;
+        }
+    }
+
+    if (this.noEmptyCellsLeft()) {    //reimp
+        if (!this.manager.isGameOver) {
+            this.manager.isGameOver = true;
+            this.winLoseMsg!.textContent = `Draw!`;
+            
+        }
+    }
+}
+
+ noEmptyCellsLeft(): boolean { // use this function to check if game is a draw
+// Turns 2d arr into 1D Arr
+//    const everyCell: [] =  [].concat(...allCells);
+   let playableCells: string[] = [];
+   for (let i = 0; i < this.cellMap.length; i++) {
+        for (let j = 0; j < this.cellMap[i].length; j++) {
+            playableCells[i] = this.cellMap[i][j];    
+        }
+       
+
+   }
+   const isEmptyCells = !playableCells.includes('empty');
+   return isEmptyCells;
+   
+}
+highlightWinPiece(winningCombination: number [][], color: string) {
+
+    // console.log('winning combo numbers = ', winningCombination);
+    for (let i = 0; i < winningCombination.length; i++) {        
+        this.allCells[(winningCombination[i][0] + 1)][winningCombination[i][1]].firstChild.classList.add('piece-highlight');
+      
+    }
+}
+
+setWinLoseMessage(PieceColor: string) {
+    this.winLoseMsg!.textContent = `Current Turn: ${PieceColor}`;
+
+}
+
+ checkCombination(row: number, col: number, pieceColor: string, possCombo: string) {
     let count = 0;
     let innerwinningCombination: number[][] = [];
     
@@ -186,19 +238,19 @@ async function checkCombination(row: number, col: number, pieceColor: string, po
         // if (nextRow < 0 || nextRow > 5 || nextCol < 0 || nextCol > 6) break; // double check this
 
        
-        if (possCombo == possibleCombinations.down) { // v
+        if (possCombo == this.possibleCombinations.Down) { // v
             if (row + i < 0 || row + i > 5 || col < 0 || col > 6) break; // double check this
            
-            if (cellArr[row + i][col] == pieceColor) { // checks down // should work for up too
+            if (this.cellMap[row + i][col] == pieceColor) { // checks down // should work for up too
                 count += 1; 
                 innerwinningCombination.push([row + i, col]);
                 // console.log(count);
             }
         }
-        if (possCombo == possibleCombinations.right) {  // h
+        if (possCombo == this.possibleCombinations.Right) {  // h
             if (row  < 0 || row  > 5 || col + i  < 0 || col + i > 6) break; // double check this
            
-            if (cellArr[row][col + i] == pieceColor) { // checks right // 
+            if (this.cellMap[row][col + i] == pieceColor) { // checks right // 
                 count += 1; 
                 // console.log('FROM TOP:', col + i);
                 innerwinningCombination.push([row, col + i]);
@@ -206,20 +258,20 @@ async function checkCombination(row: number, col: number, pieceColor: string, po
                 // console.log(count);
             }
         }
-        if (possCombo == possibleCombinations.upRight) {
+        if (possCombo == this.possibleCombinations.UpRight) {
             if (row - i < 0 || row - i > 5 || col + i < 0 || col + i > 6) break; // double check this
            
-            if (cellArr[row - i][col + i] == pieceColor) { // checks down // should work for up too
+            if (this.cellMap[row - i][col + i] == pieceColor) { // checks down // should work for up too
                 count += 1; 
                 innerwinningCombination.push([row - i, col + i]);
 
                 // console.log(count);
             }
         }
-        if (possCombo == possibleCombinations.downRight) {
+        if (possCombo == this.possibleCombinations.DownRight) {
             if (row - i < 0 || row - i > 5 || col - i < 0 || col - i > 6) break; // double check this
            
-            if (cellArr[row - i][col - i] == pieceColor) { // checks down // should work for up too
+            if (this.cellMap[row - i][col - i] == pieceColor) { // checks down // should work for up too
                 count += 1; 
                 innerwinningCombination.push([row - i, col - i]);
 
@@ -227,11 +279,11 @@ async function checkCombination(row: number, col: number, pieceColor: string, po
             }
         }
         if (count >= 4) {
-            winningCombination = innerwinningCombination;
-            highlightWinPiece(winningCombination, pieceColor);
+            this.winningCombination = innerwinningCombination;
+            this.highlightWinPiece(this.winningCombination, pieceColor);
             console.log('You Win! 4 in a row');
-            isGameOver = true;
-            dropCells.forEach((dCell) => {
+            this.manager.isGameOver = true;
+            this.dropCells.forEach((dCell) => {
                 dCell.classList.remove('red', 'yellow');
             });
 
@@ -242,108 +294,9 @@ async function checkCombination(row: number, col: number, pieceColor: string, po
 
     
 }
-function noEmptyCellsLeft(): boolean { // use this function to check if game is a draw
-         
-        // Turns 2d arr into 1D Arr
-    //    const everyCell: [] =  [].concat(...allCells);
 
-       let playableCells: [] = [];
-       for (let i = 0; i < cellArr.length; i++) {
-            for (let j = 0; j < cellArr[i].length; j++) {
-                playableCells.push(cellArr[i][j]);
-                    
-            }
-           
 
-       }
-       const isEmptyCells = !playableCells.includes('empty');
-
-       return isEmptyCells;
-       
-    
 }
-
-function switchPlayer() {
-
-    switch (currentPlayerColor) {
-        case pieceColor.yellow:
-            currentPlayerColor = pieceColor.red;
-            winLoseMsg!.textContent = `Current Turn: ${currentPlayerColor}`;
-            break;
-        case pieceColor.red:
-            currentPlayerColor = pieceColor.yellow;
-            winLoseMsg!.textContent = `Current Turn: ${currentPlayerColor}`;
-            break;
-    
-        default:
-            break;
-    }
-   
-    winMessage();
-  
-
- 
-}
-
-function winMessage() {
-    if (isGameOver) {
-        switch (currentPlayerColor) {
-            case pieceColor.yellow:
-                winLoseMsg!.textContent = `${pieceColor.red} Wins!`;
-                break;
-            case pieceColor.red:
-                winLoseMsg!.textContent = `${pieceColor.yellow} Wins!`;
-                break;
-        }
-    }
-
-    if (noEmptyCellsLeft()) {
-        if (!isGameOver) {
-            isGameOver = true;
-            winLoseMsg!.textContent = `Draw!`;
-            
-        }
-    }
-}
-// const wc: number[][] = [[1,2], [5,6]];
-
-async function highlightWinPiece(winningCombination: number [][], color: string) {
-
-    // console.log('winning combo numbers = ', winningCombination);
-    for (let i = 0; i < winningCombination.length; i++) {        
-        allCells[(winningCombination[i][0] + 1)][winningCombination[i][1]].firstChild.classList.add('piece-highlight');
-      
-    }
-
-  
-
-    
-    
-}
-
-function resetGame() {
-    isGameOver = false;
-    winLoseMsg!.textContent = '';
-
-
-   for (let i = 0; i < allCells.length; i++) {
-    for (let j = 0; j < allCells[i].length; j++) {
-        allCells[i][j].innerHTML = '';
-    }
-
-    for (let i = 0; i < cellArr.length; i++) {
-        for (let j = 0; j < cellArr[i].length; j++) {
-            cellArr[i][j] = 'empty';
-        }
-    }
-   }
-//    winLoseMsg!.textContent = `Current Turn: ${currentPlayerColor}`;
-
-//    currentPlayerColor = pieceColor.yellow;
-}
-
-
-
 
 
 
