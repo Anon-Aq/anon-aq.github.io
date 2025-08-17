@@ -13,186 +13,68 @@
   
   </head>
   <body>
-    <!-- <div id="yatzy-lobby" yatzy-lobby>
-      <div class="players-online-container" style="overflow: auto">
-        <div class="online-player">
-          <ul>
-            <li>
-              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
-            </li>
-            <li>
-              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
-            </li>
-            <li>
-              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
-            </li>
-            <li>
-              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
-            </li>
-            <li>
-              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
-            </li>
-            <li>
-              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
-            </li>
-            <li>
-              <img src="online-dot" alt="img" /><a href="profile">Aqib</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="msg-input-display-container">
-        <div class="msg-display">
-          <div class="msg-container" style="display: flex; margin: 0.25rem">
-            <p style="margin-right: 0.25rem; font-weight: bold">Aqib:</p>
-            <p style="padding: 1rem; border-radius: 20px">
-              Lorem ipsum dolor sit amet is modi eius optio!
-            </p>
-          </div>
-        </div>
-        <div class="msg-input-send-btn-container">
-          <input type="text" class="msg-input" />
-          <div class="send-btn">Send</div>
-        </div>
-      </div>
-      <div class="active-rooms-container" active-rooms-container>
-        <ul
-          class="list-of-rooms"
-          list-of-rooms
-          style="background-color: #1f1; display: none"
-        >
-          <li class="game-li"><button id="join-room-btn">J</button> Game1</li>
-          <li class="game-li"><button id="join-room-btn">J</button> Game2</li>
-          <li class="game-li">
-            <button id="join-room-btn">J</button> Room With a Very Long Name!
-          </li>
-        </ul>
+    
+    <main class="container" container>
+           <!-- Main Game -->
+          <div class="connect-4"> 
+              <section class="drop-cell-grid" drop-cell-grid>
+                <div class="cell drop-cell" cell drop-cell></div>
+                <div class="cell drop-cell" cell drop-cell></div>
+                <div class="cell drop-cell" cell drop-cell></div>
+                <div class="cell drop-cell" cell drop-cell></div>
+                <div class="cell drop-cell" cell drop-cell></div>
+                <div class="cell drop-cell" cell drop-cell></div>
+                <div class="cell drop-cell" cell drop-cell></div>
+            </section>
+            <section class="connect-four-grid">
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+                <div class="cell main" cell main-cell></div>
+            </section>
+          </div> <!--Connect-4-ends-->
 
-        <div
-          class="make-room-settings"
-          make-room-settings
-          style="background-color: darkslategray; color: #fff; padding: 0.25rem"
-        >
-          <div class="room-name-psw-container">
-            <label for="room-name"><h4>Room Name</h4></label>
-            <input
-              type="text"
-              id="room-name"
-              room-name
-              placeholder="Optional"
-            />
-            <label for="room-password"><h4>Room Password</h4></label>
-            <input
-              type="text"
-              id="room-password"
-              room-password
-              placeholder="Optional"
-            />
-          </div>
-          <div class="time-settings" time-settings>
-            <h4>Time</h4>
-            <select name="time-options" id="time-options" time-options>
-              <option value="30s">30s</option>
-              <option value="1min">1 Min</option>
-              <option value="1min 30s">1 Min 30s</option>
-              <option selected value="2 Min">2 Min</option>
-              <option value="2 Min 30s">2 Min 30s</option>
-              <option value="3 Min">3 Min</option>
-              <option value="3 Min 30s">3 Min 30s</option>
-              <option value="4 Min">4 Min</option>
-              <option value="4 Min 30s">4 Min 30s</option>
-              <option value="5 Min">5 Min</option>
-            </select>
-          </div>
-          <div class="cpu-human-online">
-            <h4>Bot, Human or Online?</h4>
-            <select name="bot-cpu-online" id="bot-cpu-online" bot-cpu-online>
-              <option value="bot">Bot</option>
-              <option value="human">Human</option>
-              <option selected value="online">Online</option>
-            </select>
-          </div>
-          <label for="friends-only"><h4>Friend's Only?</h4></label>
-          <input
-            type="checkbox"
-            id="friends-only"
-            name="friends-only"
-            value="friend's only"
-          />
-          <label for="audience-allowed"><h4>Audience Allowed?</h4></label>
-          <input
-            type="checkbox"
-            id="audience-allowed"
-            name="audience-allowed"
-            value="audience-allowed"
-          />
-        </div>
-        <button class="make-room-btn" make-room-btn>Make</button>
-        <button class="join-room-btn">Join</button>
-      </div>
-    </div> -->
-
-    <div class="connect-four-container" connect-four-container>
-      
-        <div class="container">
-        <div class="connect-four">
-          <div class="connect-four-grid">
-            <div class="cell drop-cell" cell drop-cell></div>
-            <div class="cell drop-cell" cell drop-cell></div>
-            <div class="cell drop-cell" cell drop-cell></div>
-            <div class="cell drop-cell" cell drop-cell></div>
-            <div class="cell drop-cell" cell drop-cell></div>
-            <div class="cell drop-cell" cell drop-cell></div>
-            <div class="cell drop-cell" cell drop-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            <div class="cell main" cell main-cell></div>
-            
-          
-          </div>
-           
-        </div>
-        
-       <!-- Moved container -->
+          <!-- Clean this dirty section... -->
+          <section>
+            <!-- Moved container -->
        <div class="g-info-container">
         <div class="game-state-msg">
           <!-- black container for win lose msg and button for rematch-->
@@ -289,13 +171,14 @@
                   </div>
                 </div>
               </div> -->
-           
-           
-          </div>
-        </div>
-      </div>
+
+            
+          </section>
+        
        
-    </div>
+       
+
+      </main>
     
   </body>
 </html>

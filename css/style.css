@@ -41,9 +41,14 @@ body {
 }
 
 /* connect-four Canvas */
-.connect-four-container {
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  overflow: hidden;
   padding: 1em;
-  /* overflow: hidden; */
   min-height: 100vh;
   margin-inline: auto;
   width: min(95%, 105.0rem);  
@@ -51,43 +56,46 @@ body {
   
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  /* background-color: gray; */
-  
-}
 
+/* 
 .connect-four{
   padding: .2rem;
   display:flex;
   justify-content:center;
   align-items:center;
 
-  /* background-color: slateblue; */
+  background-color: slateblue;
   width: 55%;
   margin-bottom: 1em;
+
+} */
+/* Drop cell and connect-four-grid need a common class */
+.drop-cell-grid {
+  display: grid;
+  grid-template-columns: repeat(7, calc(var(--grid-size) / 7));
+  /* background-color: orchid; */
+  height: fit-content;
+  width: fit-content;
+  gap: .1rem;
+  padding-inline: calc(var(--cell-size) / 5);
 
 }
 
 /* Grid container connect-four */
 .connect-four-grid {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border: 5px solid rgb(9, 9, 86);
+  box-shadow: 0 0 10px;
   z-index: 1;
   position: relative;
   display: grid;
   grid-template-columns: repeat(7, calc(var(--grid-size) / 7));
-  grid-template-rows: repeat(7, calc(var(--grid-size) / 7));
+  grid-template-rows: repeat(6, calc(var(--grid-size) / 6));
   padding-inline: calc(var(--cell-size) / 5);
   background-color: var(--clr-board-main);
-
-  /* border: .2rem solid var(--clr-connect-four-outline); */
-  /* box-shadow: 0px 4px 4px 2px rgb(138, 138, 138); */
-  /* background-color: var(--clr-connect-four-outline); */
-  /* margin-inline: 1em; */
-  
+  height: fit-content;
+  width: fit-content;
   gap: .1rem;
 }
 
@@ -106,8 +114,8 @@ body {
 
 .cell {
   margin: auto;
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   /* background */
   /* background-color: wheat; */
   /* border-radius: 50%; */
@@ -117,6 +125,7 @@ body {
   position: relative;
   box-shadow: 0 0 .1rem .2rem rgba(7, 7, 7, .2);
   border-radius: 50%;
+  border: 3px solid black;
   width: calc(var(--piece-size));
   height: calc(var(--piece-size));
   animation: drop-piece 2s both;
@@ -130,10 +139,17 @@ body {
 
 .cell.drop-cell.red:hover {
   background-color: var(--clr-red-piece);
+  border: 3px solid black;
+  box-shadow: 0 0 .1rem .2rem rgba(7, 7, 7, .2);
+
   
 }
 .cell.drop-cell.yellow:hover {
   background-color: var(--clr-yellow-piece);
+  border: 3px solid black;
+  box-shadow: 0 0 .1rem .2rem rgba(7, 7, 7, .2);
+
+
   
   
 }
@@ -165,6 +181,8 @@ body {
   /* opacity: 50%; */
 }
 
+
+
 @keyframes red-highlight-anim {
   from {
     background-color: var(--clr-red-piece-highlight);
@@ -172,7 +190,8 @@ body {
    
   to {
     background-color: var(--clr-red-piece-highlight);
-    box-shadow: 0 0 2px 2px white;
+    border: 2px solid white;
+    box-shadow: 0 0 3px 3px white;
   }
 }
 
@@ -183,7 +202,9 @@ body {
    
   to {
     background-color: var(--clr-yellow-piece-highlight);
-    box-shadow: 0 0 2px 2px white;
+    border: 2px solid white;
+
+    box-shadow: 0 0 3px 3px white;
   }
 }
 
@@ -196,9 +217,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: rgb(240, 240, 240); */
+
 }
 .cell.main::before {
+  /* All Normal Cells (Cirlces) */
   position: absolute;
   content: '';
   width: calc(var(--cell-size) / 1.2);
@@ -206,11 +228,17 @@ body {
   border-radius: 50%;
   background-color: #071c3f;
 }
+/*  */
+
+
 .cell.drop-cell{
-   width: calc(var(--cell-size) / 1.2);
+  /* Hidden */
+  width: calc(var(--cell-size) / 1.2);
   height: calc(var(--cell-size) / 1.2);
   border-radius: 50%;
-
+  /* background-color: rebeccapurple; */
+  /* display: none; */
+  
 }
 .btn-reset,
 .btn-concede {
