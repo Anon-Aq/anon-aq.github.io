@@ -131,7 +131,7 @@ export default class Board {
         const cellSize = getComputedStyle(document.documentElement).getPropertyValue('--cell-size');
         piece.pieceElem.animate([
             // key frames
-            { transform: `translateY(calc(var(--cell-size) * ${-piece.row}))` },
+            { transform: `translateY(calc(var(--cell-size) * ${-piece.row}))` }, // from top
             { transform: 'translateY(calc(var(--cell-size) - var(--cell-size)))' } // to bottom
         ], {
             // sync options
@@ -161,12 +161,16 @@ export default class Board {
     noEmptyCellsLeft() {
         // Turns 2d arr into 1D Arr
         //    const everyCell: [] =  [].concat(...allCells);
-        let playableCells = [];
+        let inc = 0;
+        const playableCells = [];
         for (let i = 0; i < this.cellMap.length; i++) {
             for (let j = 0; j < this.cellMap[i].length; j++) {
-                playableCells[i] = this.cellMap[i][j];
+                playableCells[inc] = this.cellMap[i][j];
+                inc++;
+                console.log(this.cellMap[i][j]); //42
             }
         }
+        //    console.log(playableCells.length)
         const isEmptyCells = !playableCells.includes('empty');
         return isEmptyCells;
     }

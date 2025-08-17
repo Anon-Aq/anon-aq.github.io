@@ -197,21 +197,27 @@ delay(ms: number) {
     }
 }
 
- noEmptyCellsLeft(): boolean { // use this function to check if game is a draw
+  noEmptyCellsLeft(): boolean { // use this method to check if game is a draw
 // Turns 2d arr into 1D Arr
 //    const everyCell: [] =  [].concat(...allCells);
-   let playableCells: string[] = [];
+   let inc = 0;
+   const playableCells: string[] = [];
    for (let i = 0; i < this.cellMap.length; i++) {
         for (let j = 0; j < this.cellMap[i].length; j++) {
-            playableCells[i] = this.cellMap[i][j];    
+            playableCells[inc] = this.cellMap[i][j];  
+            inc++;
+            console.log(this.cellMap[i][j]); //42
+
         }
        
 
    }
+//    console.log(playableCells.length)
    const isEmptyCells = !playableCells.includes('empty');
    return isEmptyCells;
    
 }
+
 highlightWinPiece(winningCombination: number [][], color: string) {
 
     // console.log('winning combo numbers = ', winningCombination);
