@@ -83,6 +83,7 @@ initialize() {
                     if(this.cellMap[0][j] != PieceColor.Empty) return;
                     // this.placePiece(i, j, this.currentPlayerColor); // 
                     this.placePiece(new Piece(this.manager.currentTurnColor, i, j));    //reimp
+                    
                     this.manager.switchTurn();  // reimpliment
                     this.winMessage();
 
@@ -129,7 +130,7 @@ delay(ms: number) {
                     break;
                  
             }
-            this.allCells[i + 1][piece.col].appendChild(piece.pieceElem);
+            this.allCells[i + 1][piece.col].appendChild(piece.pieceElem);    
             this.cellMap[i][piece.col] = piece.pieceColor;
             // checkCombinations(i, col, color);
             break;
